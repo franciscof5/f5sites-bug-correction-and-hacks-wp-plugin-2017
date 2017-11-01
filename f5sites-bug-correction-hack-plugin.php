@@ -16,4 +16,4 @@ function correct_bugs_f5sites() { ?>
 	<style type="text/css">
 		ul.post-meta {display: none;}
 	</style>
-<?php } ?>
+<?php } 
