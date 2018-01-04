@@ -31,7 +31,7 @@ function cfdb7_pugin_activation_init() {
 
 
 if(!is_admin()) { 
-	add_action('wp_loaded', 'correct_bugs_f5sites');
+	add_action('wp_footer', 'correct_bugs_f5sites');
 }
 function correct_bugs_f5sites() { ?>
 	<style type="text/css">
