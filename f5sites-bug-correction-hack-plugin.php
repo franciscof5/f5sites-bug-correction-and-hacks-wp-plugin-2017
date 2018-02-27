@@ -8,6 +8,15 @@ Author URI: https://www.franciscomat.com/
 License: GPLv3
 Tags: mu-plugins */
 
+
+/**WOO CART COOKIE LOAD BUG FROM CROSS-STORES */
+if( !defined( 'ABSPATH') ) exit();
+
+add_filter( 'woocommerce_persistent_cart_enabled', '__return_false' );
+
+isset( $_COOKIE['woocommerce_cart_hash'] ) && define( 'DONOTCACHEPAGE', true );
+
+/***/
 add_action( 'wpcf7_before_send_mail', 'cfdb7_pugin_activation_send', 10, 2 );
 add_action( 'toplevel_page_cfdb7-list', 'cfdb7_pugin_activation_send' );
 
