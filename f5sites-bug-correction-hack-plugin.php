@@ -8,17 +8,38 @@ Author URI: https://www.franciscomat.com/
 License: GPLv3
 Tags: mu-plugins */
 
-
-/**WOO CART COOKIE LOAD BUG FROM CROSS-STORES */
 if( !defined( 'ABSPATH') ) exit();
 
 add_filter( 'woocommerce_persistent_cart_enabled', '__return_false' );
+add_action( 'wpcf7_before_send_mail', 'cfdb7_pugin_activation_send', 10, 2 );
+add_action( 'toplevel_page_cfdb7-list', 'cfdb7_pugin_activation_send' );
+add_action( 'woocommerce_before_main_content', 'redirect_from_default_archives_untill_find_better_hack');
+
+if(!is_admin()) { 
+	add_action('wp_footer', 'correct_bugs_f5sites');
+}
+
+
+function redirect_from_default_archives_untill_find_better_hack() {
+	if(is_shop()) {
+		wp_redirect("/product-category/".$_SERVER["HTTP_HOST"]);
+	}
+}
+
+/**WOO CART COOKIE LOAD BUG FROM CROSS-STORES */
+
+
+
 
 isset( $_COOKIE['woocommerce_cart_hash'] ) && define( 'DONOTCACHEPAGE', true );
 
+/* shortcode para woocommerce em pages */
+function url_shortcode() {
+	return get_bloginfo('url');
+}
+#add_shortcode('current_blog_url','url_shortcode');
+
 /***/
-add_action( 'wpcf7_before_send_mail', 'cfdb7_pugin_activation_send', 10, 2 );
-add_action( 'toplevel_page_cfdb7-list', 'cfdb7_pugin_activation_send' );
 
 function cfdb7_pugin_activation_send() {
 	#echo "cfdb7_pugin_activation_send(primeiro)";
@@ -26,6 +47,7 @@ function cfdb7_pugin_activation_send() {
 	$old_p = $wpdb->prefix;
 	$wpdb->prefix="7fnetwork_";
 }
+
 function cfdb7_pugin_activation_init() {
 	if(function_exists('cfdb7_pugin_activation')) {
 		global $wpdb;
@@ -39,9 +61,6 @@ function cfdb7_pugin_activation_init() {
 }
 
 
-if(!is_admin()) { 
-	add_action('wp_footer', 'correct_bugs_f5sites');
-}
 function correct_bugs_f5sites() { ?>
 	<style type="text/css">
 		ul.post-meta {display: none;}
@@ -71,3 +90,4 @@ function cfdb7_pugin_activation_init() {
 	}
 }*/
 
+/************/
