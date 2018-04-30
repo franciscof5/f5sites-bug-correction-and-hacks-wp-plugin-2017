@@ -10,10 +10,23 @@ Tags: mu-plugins */
 
 if( !defined( 'ABSPATH') ) exit();
 
-add_filter( 'woocommerce_persistent_cart_enabled', '__return_false' );
+#add_filter( 'woocommerce_persistent_cart_enabled', '__return_false' );
 add_action( 'wpcf7_before_send_mail', 'cfdb7_pugin_activation_send', 10, 2 );
 add_action( 'toplevel_page_cfdb7-list', 'cfdb7_pugin_activation_send' );
-add_action( 'woocommerce_before_main_content', 'redirect_from_default_archives_untill_find_better_hack');
+
+#add_action( 'woocommerce_before_main_content', 'redirect_from_default_archives_untill_find_better_hack');
+
+
+add_filter('wc_session_expiring', 'filter_ExtendSessionExpiring' );
+add_filter('wc_session_expiration' , 'filter_ExtendSessionExpired' );
+
+function filter_ExtendSessionExpiring($seconds) {
+    return 60 * 60 * 1; #era 71 em vez de 1, tentando resolver bug
+}
+function filter_ExtendSessionExpired($seconds) {
+   return 60 * 60 * 1; #72
+}
+
 
 if(!is_admin()) { 
 	add_action('wp_footer', 'correct_bugs_f5sites');
@@ -26,20 +39,20 @@ function redirect_from_default_archives_untill_find_better_hack() {
 	}
 }
 
-/**WOO CART COOKIE LOAD BUG FROM CROSS-STORES */
+####WOO CART COOKIE LOAD BUG FROM CROSS-STORES 
 
 
 
 
 isset( $_COOKIE['woocommerce_cart_hash'] ) && define( 'DONOTCACHEPAGE', true );
 
-/* shortcode para woocommerce em pages */
+# shortcode para woocommerce em pages
 function url_shortcode() {
 	return get_bloginfo('url');
 }
 #add_shortcode('current_blog_url','url_shortcode');
 
-/***/
+##
 
 function cfdb7_pugin_activation_send() {
 	#echo "cfdb7_pugin_activation_send(primeiro)";
