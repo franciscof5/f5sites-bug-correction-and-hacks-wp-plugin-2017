@@ -15,6 +15,7 @@ add_action( 'wpcf7_before_send_mail', 'cfdb7_pugin_activation_send', 10, 2 );
 add_action( 'toplevel_page_cfdb7-list', 'cfdb7_pugin_activation_send' );
 add_shortcode('show-age', 'whats_my_age_again');
 
+show_admin_bar( false );
 #add_action( 'woocommerce_before_main_content', 'redirect_from_default_archives_untill_find_better_hack');
 
 
